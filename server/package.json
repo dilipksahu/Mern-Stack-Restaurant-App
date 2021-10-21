@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,13 @@
   "bugs": {
     "url": "https://github.com/dilipksahu/Mern-Stack-Restaurant-App/issues"
   },
-  "homepage": "https://github.com/dilipksahu/Mern-Stack-Restaurant-App#readme"
+  "homepage": "https://github.com/dilipksahu/Mern-Stack-Restaurant-App#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.11",
+    "nodemon": "^2.0.14"
+  }
 }
