@@ -14,6 +14,7 @@ require('dotenv').config({ path: path.join(__dirname, '.env') });
 // ---- routes --------//
 const CustomerRoutes = require('./routes/CustomerRoutes');
 const FoodItemRoutes = require('./routes/FoodItemRoutes');
+const OrderMasterRoutes = require('./routes/OrderMasterRoutes');
 
 const app = express();
 dotenv.config();
@@ -24,8 +25,10 @@ app.use(cors());
 
 // coustomer routes
 app.use('/', CustomerRoutes);
-// foodItem routes
+// food item routes
 app.use('/', FoodItemRoutes);
+// order master routes
+app.use('/', OrderMasterRoutes);
 
 // console.log("CONNECTION_URL===>", CONNECTION_URL);
 const PORT = process.env.PORT || 3000;

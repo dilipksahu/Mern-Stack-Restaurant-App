@@ -1,8 +1,8 @@
-const FoodItemModel = require('../model/FoodItemModel');
+const OrderMasterModel = require('../model/OrderMasterModel');
 
-class FoodItemService {
+class OrderMasterService {
     add(data) {
-        return FoodItemModel.add(data)
+        return OrderMasterModel.add(data)
             .then((result) => {
                 return result
             })
@@ -11,7 +11,7 @@ class FoodItemService {
             })
     }
     find(data, callback) {
-        return FoodItemModel.find(data, callback)
+        return OrderMasterModel.find(data, callback)
             .then((result) => {
                 return result
             })
@@ -20,7 +20,7 @@ class FoodItemService {
             })
     }
     update(condition, data) {
-        return FoodItemModel.update(condition, data)
+        return OrderMasterModel.update(condition, data)
             .then((result) => {
                 console.log(result)
                 return result
@@ -30,7 +30,7 @@ class FoodItemService {
             })
     }
     delete(data) {
-        return FoodItemModel.delete(data)
+        return OrderMasterModel.delete(data)
             .then((result) => {
                 return result
             })
@@ -40,4 +40,4 @@ class FoodItemService {
     }
 }
 
-module.exports = new FoodItemService();
+module.exports = new OrderMasterService();
