@@ -1,20 +1,19 @@
 const mongoose = require('mongoose');
 
-const orderMasterSchema = mongoose.Schema({
-    orderNumber: {
+const orderDetailSchema = mongoose.Schema({
+    orderMasterId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'orderMaster'
+    },
+    foodItemId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'foodItem'
+    },
+    foodItemPrice: {
         type: Number,
         required: false
     },
-    customerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'customer'
-    },
-    pMethod: {
-        type: String,
-        enum: ['cash', 'card'],
-        default: 'cash'
-    },
-    gTotal: {
+    quatity: {
         type: Number,
         required: false
     }
@@ -24,11 +23,11 @@ const orderMasterSchema = mongoose.Schema({
     }
 );
 
-const orderMaster = mongoose.model('orderMaster', orderMasterSchema);
-class OrderMasterModel {
+const orderDetail = mongoose.model('orderDetail', orderDetailSchema);
+class OrderDetailModel {
     add(data) {
         return new Promise((resolve, reject) => {
-            new orderMaster(data).save().then((result) => {
+            new orderDetail(data).save().then((result) => {
                 resolve(result);
             }).catch((err) => {
                 reject(err);
@@ -38,9 +37,10 @@ class OrderMasterModel {
 
     find(data, callback) {
         return new Promise((resolve, reject) => {
-            orderMaster.find(data)
+            orderDetail.find(data)
                 .sort({ createdAt: -1 })
-                .populate('customerId')
+                .populate('orderMasterId')
+                .populate('foodItemId')
                 .lean()
                 .then((result) => {
                     resolve(result);
@@ -53,7 +53,7 @@ class OrderMasterModel {
 
     update(condition, data) {
         return new Promise((resolve, reject) => {
-            orderMaster.update(condition, data).then((result) => {
+            orderDetail.update(condition, data).then((result) => {
                 resolve(result);
             }).catch((err) => {
                 reject(err);
@@ -64,7 +64,7 @@ class OrderMasterModel {
     delete(data, callback) {
 
         return new Promise((resolve, reject) => {
-            orderMaster.findByIdAndRemove({ '_id': data.id }).then((result) => {
+            orderDetail.findByIdAndRemove({ '_id': data.id }).then((result) => {
                 resolve(result);
             }).catch((err) => {
                 console.log(err);
@@ -77,4 +77,4 @@ class OrderMasterModel {
 
 }
 
-module.exports = new OrderMasterModel();
+module.exports = new OrderDetailModel();

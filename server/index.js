@@ -15,13 +15,15 @@ require('dotenv').config({ path: path.join(__dirname, '.env') });
 const CustomerRoutes = require('./routes/CustomerRoutes');
 const FoodItemRoutes = require('./routes/FoodItemRoutes');
 const OrderMasterRoutes = require('./routes/OrderMasterRoutes');
+const OrderDetailRoutes = require('./routes/OrderDetailRoutes');
 
 const app = express();
 dotenv.config();
-
+mongoose.set('debug', true);
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
+
 
 // coustomer routes
 app.use('/', CustomerRoutes);
@@ -29,6 +31,8 @@ app.use('/', CustomerRoutes);
 app.use('/', FoodItemRoutes);
 // order master routes
 app.use('/', OrderMasterRoutes);
+// order detail routes
+app.use('/', OrderDetailRoutes);
 
 // console.log("CONNECTION_URL===>", CONNECTION_URL);
 const PORT = process.env.PORT || 3000;
