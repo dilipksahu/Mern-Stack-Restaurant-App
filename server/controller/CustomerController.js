@@ -20,7 +20,7 @@ class CustomerController {
                 responseResult.success = true;
                 responseResult.message = "Sucessfully saved Customer Details";
             }
-            responseResult.data = result;
+            responseResult.result = result;
             return res.status(201).send(responseResult);
         }).catch((e) => {
             responseResult.success = false;
@@ -38,12 +38,11 @@ class CustomerController {
             if (result) {
                 responseResult.success = true;
                 responseResult.message = "Customer Details Found";
-                responseResult.data = result;
             } else {
                 responseResult.success = false;
-                responseResult.message = "No Customer Found ";
-                responseResult.data = result;
+                responseResult.message = "No Customer Found ";                
             }
+            responseResult.result = result;
             res.status(200).send(responseResult);
         }).catch((errors) => {
             responseResult.success = false;

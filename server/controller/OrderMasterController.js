@@ -4,11 +4,25 @@ class OrderMasterController {
     add(req, res) {
         console.log("req.body: " + JSON.stringify(req.body, null, 2));
         const responseResult = {}
+        let orderDetails = []
+        let orderedFood = req.body.orderDetails;
+        if (orderedFood && orderedFood.length != 0){
+            for (const order of orderedFood.values()){
+                orderDetails.push({
+                    foodItemId: order.foodItemId,
+                    foodItemPrice: order.foodItemPrice * order.quantity,
+                    quantity: order.quantity,
+                    foodItemName: order.foodItemName
+                })
+            }
+            
+        }
         let inputData = {
             orderNumber: req.body.orderNumber,
             customerId: req.body.customerId,
             pMethod: req.body.pMethod,
-            gTotal: req.body.gTotal
+            gTotal: req.body.gTotal,
+            orderDetail:orderDetails
         };
 
         OrderMasterService.add(inputData).then((result) => {

@@ -5,7 +5,7 @@ const BASE_URL = 'http://localhost:3000/api/';
 export const ENDPIONTS = {
     CUSTOMER: 'customer',
     FOODITEM: 'foodItem',
-    ORDER: 'orderDetail'
+    ORDER: 'orderMaster'
 }
 
 export const createAPIEndpoint = endpoint => {

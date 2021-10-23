@@ -29,14 +29,14 @@ export default function Order() {
         handleInputChange,
         resetFormControls
     } = useForm(getFreshModelObject);
-
+    // console.log("values",values)
     return (
 
-        <Grid container>
+        <Grid container spacing={2}>
             
             <Grid item xs={12}>
             <OrderForm 
-                {...{ values, errors, handleInputChange }}
+                {...{ values,setValues, errors,setErrors, handleInputChange,resetFormControls }}
             />
             </Grid>
             <Grid item xs={6}>
@@ -45,7 +45,9 @@ export default function Order() {
             />
             </Grid>
             <Grid item xs={6}>
-                <OrderedFoodItems/>
+                <OrderedFoodItems
+                    {...{ values, setValues }}
+                />
             </Grid>
 
         </Grid>

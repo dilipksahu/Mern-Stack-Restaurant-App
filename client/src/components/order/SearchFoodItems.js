@@ -1,7 +1,9 @@
-import { IconButton, InputBase, List, ListItem, ListItemText, makeStyles, Paper } from '@material-ui/core';
+import { IconButton, InputBase, List, ListItem, ListItemSecondaryAction, ListItemText, makeStyles, Paper } from '@material-ui/core';
 import React, { useState, useEffect } from 'react'
 import { createAPIEndpoint, ENDPIONTS } from "../../api";
 import SearchTwoToneIcon from '@material-ui/icons/SearchTwoTone';
+import PlusOneIcon from '@material-ui/icons/PlusOne';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 
 const useStyles = makeStyles(theme => ({
     searchPaper: {
@@ -45,9 +47,9 @@ export default function SearchFoodItems(props) {
     useEffect(() => {
         createAPIEndpoint(ENDPIONTS.FOODITEM).fetchAll()
             .then(res => {
-                console.log(res);
-                setFoodItems(res.data.data);
-                setSearchList(res.data.data);
+                // console.log("res",res);
+                setFoodItems(res.data.result);
+                setSearchList(res.data.result);
             })
             .catch(err => console.log(err))
 
@@ -57,10 +59,26 @@ export default function SearchFoodItems(props) {
         let x = [...foodItems];
         x = x.filter(y => {
             return y.foodItemName.toLowerCase().includes(searchKey.toLocaleLowerCase())
-                && orderedFoodItems.every(item => item.foodItemId != y.foodItemId)
+                && orderedFoodItems.every(item => item.foodItemId != y._id)
         });
         setSearchList(x);
     }, [searchKey, orderedFoodItems])
+
+    const addFoodItem = foodItem => {
+        // console.log(foodItem)
+        let x = {
+            orderMasterId: values.orderMasterId,
+            orderDetailId: 0,
+            foodItemId: foodItem._id,
+            quantity: 1,
+            foodItemPrice: foodItem.price,
+            foodItemName: foodItem.foodItemName
+        }
+        setValues({
+            ...values,
+            orderDetails: [...values.orderDetails, x]
+        })
+    }
     return (
         <>
         <Paper className={classes.searchPaper}>
@@ -81,7 +99,14 @@ export default function SearchFoodItems(props) {
                             >
                             <ListItemText
                                 primary={item.foodItemName}
-                                secondary={'₹' + item.price} />
+                                secondary={'₹' + item.price}
+                                onClick={e => addFoodItem(item)} />
+                                <ListItemSecondaryAction>
+                                <IconButton onClick={e => addFoodItem(item)}>
+                                    <PlusOneIcon />
+                                    <ArrowForwardIosIcon />
+                                </IconButton>
+                            </ListItemSecondaryAction>
                         </ListItem>
                     ))
                 }

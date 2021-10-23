@@ -17,7 +17,28 @@ const orderMasterSchema = mongoose.Schema({
     gTotal: {
         type: Number,
         required: false
-    }
+    },
+    orderDetail:[
+        {
+            foodItemId:{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'foodItem'
+            },
+            foodItemPrice: {
+                type: Number,
+                required: false
+            },
+            quantity: {
+                type: Number,
+                required: false
+            },
+            foodItemName:{
+                type:String,
+                required:false
+            }
+
+        }
+    ]
 },
     {
         timestamps: true

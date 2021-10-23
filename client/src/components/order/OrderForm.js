@@ -6,11 +6,12 @@ import ReplayIcon from '@material-ui/icons/Replay';
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import ReorderIcon from '@material-ui/icons/Reorder';
 import { createAPIEndpoint, ENDPIONTS } from "../../api";
+import { roundTo2DecimalPoint } from "../../utils";
 
 const pMethods = [
     { id: 'none', title: 'Select' },
-    { id: 'Cash', title: 'Cash' },
-    { id: 'Card', title: 'Card' },
+    { id: 'cash', title: 'Cash' },
+    { id: 'card', title: 'Card' },
 ]
 
 const useStyles = makeStyles(theme => ({
@@ -36,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function OrderForm(props) {
 
-    const { values, errors, handleInputChange } = props;
+    const { values,setValues, errors,setErrors, handleInputChange,resetFormControls } = props;
     const classes = useStyles();
     const [customerList, setCustomerList] = useState([]);
 
@@ -44,8 +45,8 @@ export default function OrderForm(props) {
         createAPIEndpoint(ENDPIONTS.CUSTOMER).fetchAll()
             .then(res => {
                 // console.log(res)
-                let customerList = res.data.data.map(item => ({
-                    id: item.customerId,
+                let customerList = res.data.result.map(item => ({
+                    id: item._id,
                     title: item.customerName
                 }));
                 customerList = [{ id: 0, title: 'Select' }].concat(customerList);
@@ -54,8 +55,41 @@ export default function OrderForm(props) {
             .catch(err => console.log(err))
     }, [])
 
+    useEffect(() => {
+        let gTotal = values.orderDetails.reduce((tempTotal, item) => {
+            return tempTotal + (item.quantity * item.foodItemPrice);
+        }, 0);
+        setValues({
+            ...values,
+            gTotal: roundTo2DecimalPoint(gTotal)
+        })
+
+    }, [JSON.stringify(values.orderDetails)]);
+
+    const validateForm = () => {
+        let temp = {};
+        temp.customerId = values.customerId != 0 ? "" : "This field is required.";
+        temp.pMethod = values.pMethod != "none" ? "" : "This field is required.";
+        temp.orderDetails = values.orderDetails.length != 0 ? "" : "This field is required.";
+        setErrors({ ...temp });
+        return Object.values(temp).every(x => x === "");
+    }
+
+    const submitOrder = e => {
+        console.log("Order Submitted")
+        e.preventDefault();
+        if (validateForm()) {
+            createAPIEndpoint(ENDPIONTS.ORDER).create(values)
+            .then((res)=>{
+                resetFormControls();
+            }).catch((error)=>{
+                console.log(error);
+            });
+        }
+
+    }
     return (
-        <Form>
+        <Form onSubmit={submitOrder}>
             <Grid container>
                 <Grid item xs={6}>
                     <Input
@@ -75,6 +109,7 @@ export default function OrderForm(props) {
                         value={values.customerId}
                         onChange={handleInputChange}
                         options={customerList}
+                        error={errors.customerId}
                     />
 
                 </Grid>
@@ -82,9 +117,10 @@ export default function OrderForm(props) {
                     <Select
                         label="Payment Method"
                         name="pMethod"
-                        options={pMethods}
                         value={values.pMethod}
-                        onchange={handleInputChange}
+                        onChange={handleInputChange}
+                        options={pMethods}
+                        error={errors.pMethod}
                     />
                     <Input
                         disabled

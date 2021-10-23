@@ -21,7 +21,7 @@ class FoodItemController {
                 responseResult.success = true;
                 responseResult.message = "Sucessfully saved Data";
             }
-            responseResult.data = result;
+            responseResult.result = result;
             return res.status(201).send(responseResult);
         }).catch((e) => {
             responseResult.success = false;
@@ -37,14 +37,13 @@ class FoodItemController {
             console.log("List Result:" + JSON.stringify(result, null, 2));
 
             if (result) {
-                responseResult.success = true,
-                    responseResult.message = "Data Found",
-                    responseResult.data = result
+                responseResult.success = true;
+                responseResult.message = "Data Found";
             } else {
-                responseResult.success = false,
-                    responseResult.message = "No Data Found ",
-                    responseResult.data = result
+                responseResult.success = false;
+                responseResult.message = "No Data Found ";
             }
+            responseResult.result = result;
             res.status(200).send(responseResult);
         }).catch((errors) => {
             responseResult.success = false;
