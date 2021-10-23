@@ -6,4 +6,8 @@ OrderMasterRouter.post('/api/orderMaster', OrderMasterController.add);
 
 OrderMasterRouter.get('/api/orderMaster', OrderMasterController.list);
 
+OrderMasterRouter.get('/api/orderMaster/:id', OrderMasterController.list);
+
+OrderMasterRouter.get('/api/orderInvoice/:id', OrderMasterController.genrateInvoice);
+
 module.exports = OrderMasterRouter;

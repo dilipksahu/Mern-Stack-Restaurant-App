@@ -44,7 +44,7 @@ class FoodItemController {
                 responseResult.message = "No Data Found ";
             }
             responseResult.result = result;
-            res.status(200).send(responseResult);
+            return res.status(200).send(responseResult);
         }).catch((errors) => {
             responseResult.success = false;
             responseResult.error = errors;

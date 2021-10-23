@@ -63,7 +63,7 @@ export default function OrderedFoodItems(props) {
     }
     return (
         <List>
-            {orderedFoodItems.length == 0 ?
+            {orderedFoodItems && orderedFoodItems.length == 0 ?
                 <ListItem>
                     <ListItemText
                         primary="Please select food items"
@@ -75,7 +75,7 @@ export default function OrderedFoodItems(props) {
                         }}
                     />
                 </ListItem>
-                : orderedFoodItems.map((item, idx) => (
+                :orderedFoodItems && orderedFoodItems.map((item, idx) => (
                     <Paper key={idx} className={classes.paperRoot}>
                         <ListItem>
                             <ListItemText

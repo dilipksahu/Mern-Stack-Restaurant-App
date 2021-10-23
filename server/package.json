@@ -20,7 +20,10 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
+    "easyinvoice": "^1.0.148",
     "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "html-pdf": "^2.2.0",
     "mongoose": "^6.0.11",
     "nodemon": "^2.0.14"
   }

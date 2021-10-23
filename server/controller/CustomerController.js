@@ -43,7 +43,7 @@ class CustomerController {
                 responseResult.message = "No Customer Found ";                
             }
             responseResult.result = result;
-            res.status(200).send(responseResult);
+            return res.status(200).send(responseResult);
         }).catch((errors) => {
             responseResult.success = false;
             responseResult.error = errors;
